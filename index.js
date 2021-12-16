@@ -1,3 +1,4 @@
+// Storing data and elements into variables
 let myLeads = [];
 const inputEl = document.getElementById("input-el");
 const inputBtn = document.getElementById("input-btn");
@@ -7,12 +8,13 @@ const tabBtn = document.getElementById("tab-btn");
 //To retrieve leads from the local storage
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
 
-//To prevent the leads from disappearing when the page is refreshed
+//To prevent the leads from disappearing when the page is refreshed or when our browser is closed
 if (leadsFromLocalStorage) {
     myLeads = leadsFromLocalStorage
     render(myLeads)
 }
 
+//Making our 'SAVE TAB' button work
 tabBtn.addEventListener("click", function() {
     //grabbing the url of the current tab
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -20,11 +22,11 @@ tabBtn.addEventListener("click", function() {
         localStorage.setItem("myLeads", JSON.stringify(myLeads))
         render(myLeads);
     })
-    
+
 })
 
-//Rendering out the leads in the unordered list, when the user clicks the SAVE button, using for loop, ulEl.innerHTML and a function 
-// (call the function in the addEventListener function so it works when the user clicks the button)
+//Rendering out the leads in the unordered list, when the user clicks the SAVE button, using for loop and template strings
+// This function is called in multiple places
 function render(leads) {
     let listItems = "";
     for (let i = 0; i < leads.length; i++) {
@@ -40,7 +42,7 @@ function render(leads) {
     ulEl.innerHTML = listItems;
 }
 
-
+//Making our 'DELETE BUTTON' work so it clears all leads from the local storage when clicked
 deleteBtn.addEventListener("dblclick", function() {
     localStorage.clear()
     myLeads = []
@@ -56,6 +58,8 @@ inputBtn.addEventListener("click", function() {
     localStorage.setItem("myLeads", JSON.stringify(myLeads));
     render(myLeads);
 })
+
+
 
 
 
